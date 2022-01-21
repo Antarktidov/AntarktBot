@@ -3,20 +3,8 @@ import discord #импортируем библиотеки
 from discord.ext import commands
 import requests
 import random
-#Погода
-url = 'https://wttr.in'
+import datetime as dt
 
-weather_parameters = {
-    '0': '',
-    'T': '',
-    'M': '',
-}
-
-request_headers = {
-    'Accept-Language': 'ru'
-}
-response = requests.get(url, headers=request_headers, params=weather_parameters)#Погода в командную строку
-print(response.text)
 settings = {#параметры бота
     'token': 'вставьте сюда ваш токе',
     'bot': 'ДивноГорьеБот',
@@ -32,17 +20,28 @@ async def привет(ctx): # Создаём функцию и передаём
     await ctx.send(f'Привет, {author.mention}!') # Выводим сообщение с упоминанием автора, обращаясь к переменной author.
 @bot.command()
 async def погода(ctx): # Погода
+    url = 'https://wttr.in'
+
+    weather_parameters = {
+    '0': '',
+    'T': '',
+    'M': '',
+    }
+
+    request_headers = {
+    'Accept-Language': 'ru'
+    }
     response = requests.get(url, headers=request_headers, params=weather_parameters)
     await ctx.send(response.text)
 @bot.command()
 async def помощники(ctx):#Русские помощники
-    await ctx.send('Kuzura (сотрудник), Natalya-ru (Дизай, css), Arhhhat (ARC, js, css), Katuwa (Аниме), Cryosleep')
+    await ctx.send('Kuzura (сотрудник), Natalya-ru (Дизайн, css), Arhhhat (ARC, js, css), Katuwa (Аниме), Cryosleep')
 @bot.command()
 async def русотр(ctx):#Русские сотрудники
     await ctx.send('Kuzura (помощник), Vlazovskiy (раньше)')
 @bot.command()#Бывшие русские помощники
 async def бывшпомощники(ctx):
-    await ctx.send('PavelShepard, Kopcap94 (VSTF, council, vanguard), Idel sea Qatarhael и другие')
+    await ctx.send('PavelShepard, Kopcap94 (VSTF, council, vanguard), Idel sea Qatarhael, Fiona of Amber (Эскадра), Новак и другие')
 @bot.command() #Википроекты, шде зарегистрирован Антаркт
 async def анатрктвики(ctx):
     await ctx.send('Википедия, Фэндом, Викиреальность и Мирахез')
@@ -77,7 +76,7 @@ async def царевны(ctx): #Царевны
 <https://tsarevny.fandom.com/ru> - вики
 <https://vk.com/tsarevna_ask> - ASK Царевны''')
 @bot.command()
-async def антартктпроекты(ctx):#Проекты Антпаркта
+async def антартктпроекты(ctx):#Проекты Антаркта
     await ctx.send('''<https://test.fandom.com/ru/wiki/MediaWiki:FayryNetMobile.css>
 <https://test.fandom.com/ru/wiki/MediaWiki:MinecraftRevived.css>
 <https://test.fandom.com/ru/wiki/MediaWiki:Wikia.orgFandomMobileColors.css>
@@ -96,18 +95,18 @@ async def антартктпроекты(ctx):#Проекты Антпаркта
 <https://fabulous-patrol.fandom.com/ru/wiki/MediaWiki:LightMobile.css>''')
 @bot.command()
 async def инфо(ctx): #Информация о боте
-    await ctx.send('Автор бота - Антаркт#5225. Версия Питона - 3.9.7. Использована библиотека discord.py. Отдельное спасибо kotenok gav#8521 и Fluttershy#7152 (Strangedude123/Снежок Сказочника) за помощь в установке библиотеки и исправлении багов. А также спасибо Black Spaceship за то, что вдохновил автора на написание бота и Ядекс. Практикуму за обучение автора')
+    await ctx.send('Автор бота - Антаркт#5225. Версия Питона - 3.9.7. Использована библиотека discord.py. Отдельное спасибо kotenok gav#8521 и Fluttershy#7152 (Strangedude123/Снежок Сказочника) за помощь в установке библиотеки и исправлении багов. А также спасибо Black Spaceship за то, что вдохновил автора на написание бота и Ядекс. Практикуму за обучение автора. Также спасибо папиному знакомому Максиму за помощь в установке питона на другой компьютер')
 @bot.command()
 async def анекдот(ctx): #Мама, можно мне питон?
     await ctx.send(''' - Moom, can we have python?
- - No, we have python at home
+- No, we have python at home
 At home: Пшшшшшшш''')
 @bot.command()
 async def сервер(ctx): #Сервер поддержки бота
-    await ctx.send('вставьте сбда ссылку на ваш сервер')
+    await ctx.send('вставьте сюда ссылку на ваш сервер')
 @bot.command()
 async def код(ctx): #Код бота
-    await ctx.send('<https://test.fandom.com/ru/wiki/AntarktBot.py>')
+    await ctx.send('<https://github.com/Antarktidov/AntarktBot/blob/main/AntarkBot.py>')
 @bot.command()
 async def бот(ctx): #Чего
     whatbotanswers = ['Чего?', 'А кто же ещё', 'Да, я бот', 'А вот щас обидно было', 'приём, приём, как слышно']
@@ -120,7 +119,7 @@ async def утка(ctx): #Утки
     await ctx.send(duckimage)
 @bot.command()
 async def пригласить(ctx): #Пригласить бота
-    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <вставьте сюда ссылку-приглашение бота>')
+    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <вставьте сюда ссылку-принглашение бота>')
 @bot.command()
 async def да(ctx): #Да
     await ctx.send('А у тебя есть борода?')
@@ -143,7 +142,7 @@ async def скин(ctx): #Скин
     randomskin = random.choice(skins)
     await ctx.send(randomskin)
 @bot.command()
-async def печенье(ctx): #Это на Новый год, не трогайте!
+async def печенье(ctx): #Печенье
     eda = ['Ты искал печенье, но ничего не нашёл', 'Ты искал печенье и нашёл юбилейное https://choco-opt.ru/upload/iblock/163/1638803371a06e5ca39c368889b6b43b.jpeg', 'Ты искал печенье и нашёл посиделкино https://avatars.mds.yandex.net/get-mpic/5159019/img_id5076932055298017294.jpeg/orig', 'Ты искал печенье и нашёл юбилейное с шоколадом https://static.beloris.ru/content/products/458645/947684/tmp/1280_128062335dc6ec68d916fa620b6c681fdbe6_xl.jpg', 'Ты искал печенье, но ничего не нашёл', 'Ты нашёл печенье, но его съела собака', 'Ты нашёл печенье, но его съела кошка', 'Ты искал печенье, но нашёл оливье https://ne-dieta.ru/wp-content/uploads/2017/12/final_1200-7.jpg', 'Ты пытался найти хоть-какую-то еду, но нашёл печенье', 'Ты искал печеньеб но нашёл подарок на новый год']
     randomeda = random.choice(eda)
     await ctx.send(randomeda)
@@ -161,9 +160,12 @@ async def факты(ctx): #Факт
 - Если скачать сразу два питона, то библиотека может не установится
 - Если скачать питон через визуал студио - тоже самое
 - Слишком новый или старый питон - опять тоже самое
+- Ну и вообще тоже самое если неправильно установить питон
 - Если кодить в визуал студио, то питон не будет поддерживать кириллицу
 - Невозможно создать команду bot.
-- Библиотека discord.py не поддерживает слэш-команды''')
+- Невозможно создать две одинаковые команды
+- Библиотека discord.py не поддерживает слэш-команды
+- При установке питона могут не установится некоторые стандартные библиотеки''')
 @bot.command()
 async def тест(ctx): #Тест
     await ctx.send('Поверье мне, я полностью работоспособен!')
@@ -172,7 +174,7 @@ async def вики(ctx): #вики
     await ctx.send('''Мой аккаунт на вики:
 <https://tsarevny.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Царевны вики. Имею статус бота и администратора, но на самом деле мной управляет Антаркт. Руками. Именно мне выпала честь однажны поздравить всех с первым апреля.
 <https://fabulous-patrol.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Сказочный Патруль вики. Имею только заполненный профайл.
-<https://feerinki.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Фееринки вики. С помощью меня Антаркт руками прпоставлял шаблон.
+<https://feerinki.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Фееринки вики. С помощью меня Антаркт руками проставлял шаблон.
 <https://test.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - тестовый аккаунт Антарта. Имею права бюрократа и администратора.''')
 @bot.command()
 async def практикум(ctx): #Курсы
@@ -180,9 +182,59 @@ async def практикум(ctx): #Курсы
 Веб-разработчик (бесплатная часть пройдена)
 Дизайнер интерфейсов (бесплатная часть пройдена)
 Питон-разработчик (бесплатная часть пройдена)
-C ++ разработчик (в процессе)''')
+C ++ разработчик (заброшен)''')
 @bot.command() # Основной
 async def основной(ctx):
     await ctx.send('Эта беседа должна быть продолжена в #основной')
-
+@bot.command() # НГ
+async def нг(ctx):
+    now = dt.datetime.today()
+    new_year = dt.datetime(2022, 1, 1)
+    print(now)
+    print(new_year)
+    if now < new_year:
+        await ctx.send('С наступающим Новым годом!')
+    else:
+        await ctx.send('С наступившим Новым годом!')
+    photos = ['http://shop.rpkgr.ru/wa-data/public/shop/products/57/53/5357/images/23882/23882.700.jpg', 'https://tdpodarkov.ru/800/600/https/kofe.ru/images/thumbnails/2445/2000/detailed/32/7278.40.jpg', 'https://images.ru.prom.st/682835621_w640_h640_podarochnyj-nabor-schelkunchik.jpg', 'https://7960777a-2fd1-4b07-8bbb-896e98c4659c.selcdn.net/upload/resize_cache/iblock/cce/400_400_140cd750bba9870f18aada2478b24840a/cce7a262f93d9591e1dfdd3b5f0026d5.jpg', 'https://ftea.ru/wp-content/uploads/2019/04/45.2.jpg', 'https://avatars.mds.yandex.net/get-zen_doc/2746214/pub_5fe7fbc7dba1eb4af8e7739d_5fe7fdcedba1eb4af8e80e1f/scale_1200', 'https://serovodorod-okt.ru/800/600/https/avatars.mds.yandex.net/get-zen_doc/1880383/pub_5e9e11d44292883111a14819_5e9eddd9175b6f71c45ae3d7/scale_1200', 'https://static.1000.menu/img/content/20917/-salat-stolichnyi-salat-stolichnyi-olive_1498161313_1_og.jpg', 'https://avatars.mds.yandex.net/get-zen_doc/3396902/pub_5fc26e684c127965db076658_5fc26f404c127965db08f651/scale_1200']
+    randomphoto = random.choice(photos)
+    await ctx.send(randomphoto)
+@bot.command()
+async def kuzura(ctx): #Kuzura
+    await ctx.send('https://thumbnailer.mixcloud.com/unsafe/900x900/extaudio/3/9/f/d/188e-cf7a-43d9-ad47-9aeab297e2f8.jpg')
+#языки программирования и не только
+@bot.command()
+async def русский(ctx): #русский
+    await ctx.send('Да,а разговариваю по-русски')
+@bot.command()
+async def english(ctx): #english
+    await ctx.send('Извините,я не разговариваю по-английски. Почти')
+@bot.command()
+async def python(ctx): #python
+    await ctx.send('Да, я разговариваю на питоне')
+@bot.command()
+async def сиплюсплюс(ctx): #C++
+    await ctx.send('Извините, я не разговариваю на C++')
+@bot.command()
+async def php(ctx): #php
+    await ctx.send('Извините, я не разговариваю на php')
+@bot.command()
+async def java(ctx): #java
+    await ctx.send('Это вам не javascript')
+@bot.command()
+async def javascript(ctx): #javascript
+    await ctx.send('Это вам не java')
+@bot.command()
+async def мышеловка(ctx): #мышеловка
+    text = input()
+    await ctx.send(text)
+@bot.command()
+async def кодеры(ctx):#Кодеры
+    await ctx.send('''Александр III(также известен как Hummel009) - CSS, Java (minecfraft), Kopcap94(CSS, JavaScript, Ruby), BlackSpaceship (Питон), Не кочан (Также известен как IvanovVN, Vonavy) (JavaScript), Natalya-ru (CSS), Arhhhat (раньше был ник на санскрите), (CSS, Javascript), Kotgav (html, CSS, JavaScript, php, Python)
+Если кого-то нет в списке, напишите владельцу бота - добавлю.''')
+@bot.command()
+async def мем(ctx): #Мемы
+    memes = ['https://sun9-16.userapi.com/impg/p0_aG8X-nbQf9nniAEdW1ej3KbCff-PT_lt4ew/QlOWMPCh5TA.jpg?size=555x669&quality=96&sign=07dd41dcda4e87d14dbee6bcf8d01605&type=album https://sun9-32.userapi.com/impg/YtwMqzLei5lXp-zuTp1WTutgSMAQYpFyNuAOJg/4zDvMfz4a4k.jpg?size=564x666&quality=96&sign=1eb190a6c474250025ff4cb873ff60bf&type=album источник -Такая себе Учёба', 'https://sun9-39.userapi.com/impg/rt6OheLsYVIIrrlQEmBgf6Ainqqq8f957Enm3w/9cTlI19HuDw.jpg?size=570x726&quality=96&sign=bb792a097adfddc777e665e3c990f637&type=album https://sun9-68.userapi.com/impg/iw4y2sRreRs-qATN7fDoWQJx8gFMmj0I9KatSQ/G7ZxXxdNvsM.jpg?size=572x727&quality=96&sign=0d3a74c1ee8100568909038d64556f76&type=album источник - Такая себе учёба']
+    randommeme = random.choice(memes)
+    await ctx.send(randommeme)
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
