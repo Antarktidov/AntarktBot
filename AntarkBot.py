@@ -6,7 +6,7 @@ import random
 import datetime as dt
 
 settings = {#параметры бота
-    'token': 'вставьте сюда ваш токе',
+    'token': 'вставьте сюда ваш токен',
     'bot': 'ДивноГорьеБот',
     'id': вставьте сюда id бота вез кавычек,
     'prefix': 'див!'
