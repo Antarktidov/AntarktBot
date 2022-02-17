@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import discord #импортируем библиотеки
 from discord.ext import commands
+from discord_components import DiscordComponents, Button, ButtonStyle
 import requests
 import random
-import datetime as dt
+import datetime as DT
+import time
+import calendar
 
 settings = {#параметры бота
     'token': 'вставьте сюда ваш токен',
@@ -19,8 +22,8 @@ async def привет(ctx): # Создаём функцию и передаём
     author = ctx.message.author # Объявляем переменную author и записываем туда информацию об авторе.
     await ctx.send(f'Привет, {author.mention}!') # Выводим сообщение с упоминанием автора, обращаясь к переменной author.
 @bot.command()
-async def погода(ctx): # Погода
-    url = 'https://wttr.in'
+async def погода(ctx, *, city): # Погода
+    url = 'https://wttr.in/' + city
 
     weather_parameters = {
     '0': '',
@@ -48,7 +51,6 @@ async def анатрктвики(ctx):
 @bot.command() #Вики, где Антаркт админ
 async def анатрктадмин(ctx):
     await ctx.send('''<https://tsarevny.fandom.com/ru> _- Царевны вики
-<https://fabulous-patrol.fandom.com/ru> - Сказочный Патруль вики
 <https://paw-patrol.fandom.com/ru> - Щенячий Патруль вики (-ru)
 <https://test.fandom.com/ru> - тест вики
 и другие''')
@@ -56,18 +58,18 @@ async def анатрктадмин(ctx):
 async def мир(ctx): #Мир вам, добрые люди
     print('Мир вам, добрые люди')
 @bot.command()
-async def fandom(ctx): #Фэндом, Кузура и поддержка
+async def fandomkuzura(ctx): #Фэндом, Кузура и поддержка
     await ctx.send('''<https://ru.fandom.com> - главная страница
 <https://c.fandom.com/ru> - Вики Сообщества
 <https://c.fandom.com/ru/wiki/Участник:Kuzura> - Kuzura
 <https://c.fandom.com/ru/wiki/Стена_обсуждения:Kuzura> - Стена Кузуры
 <https://support.fandom.com/hc/ru> - поддержка''')
 @bot.command()
-async def gamepedia(ctx): #Gamepedia
+async def gamepedianotkuzura(ctx): #Gamepedia
     await ctx.send('Геймпедии больше нет, её купил Фэндом')
 @bot.command()
-async def wikia(ctx): #Wikia.org
-    await ctx.send('Скоро викиюорг объеденят с Фэндомом')
+async def wikiakuzurza(ctx): #Wikia.org
+    await ctx.send('Викии.орг больше нет, её перенесли на Фэндом')
 @bot.command()
 async def царевны(ctx): #Царевны
     await ctx.send('''<https://tsarevny.ru> - сайт
@@ -103,7 +105,7 @@ async def анекдот(ctx): #Мама, можно мне питон?
 At home: Пшшшшшшш''')
 @bot.command()
 async def сервер(ctx): #Сервер поддержки бота
-    await ctx.send('вставьте сюда ссылку на ваш сервер')
+    await ctx.send('вставьте сюда ссылку на сервер бота')
 @bot.command()
 async def код(ctx): #Код бота
     await ctx.send('<https://github.com/Antarktidov/AntarktBot/blob/main/AntarkBot.py>')
@@ -119,7 +121,7 @@ async def утка(ctx): #Утки
     await ctx.send(duckimage)
 @bot.command()
 async def пригласить(ctx): #Пригласить бота
-    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <вставьте сюда ссылку-принглашение бота>')
+    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <вставьте сюда приглашение бота>')
 @bot.command()
 async def да(ctx): #Да
     await ctx.send('А у тебя есть борода?')
@@ -170,7 +172,7 @@ async def факты(ctx): #Факт
 async def тест(ctx): #Тест
     await ctx.send('Поверье мне, я полностью работоспособен!')
 @bot.command()
-async def вики(ctx): #вики
+async def викиаккаунт(ctx): #вики
     await ctx.send('''Мой аккаунт на вики:
 <https://tsarevny.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Царевны вики. Имею статус бота и администратора, но на самом деле мной управляет Антаркт. Руками. Именно мне выпала честь однажны поздравить всех с первым апреля.
 <https://fabulous-patrol.fandom.com/ru/wiki/Участник:ДивноГорьеБот> - Сказочный Патруль вики. Имею только заполненный профайл.
@@ -182,14 +184,14 @@ async def практикум(ctx): #Курсы
 Веб-разработчик (бесплатная часть пройдена)
 Дизайнер интерфейсов (бесплатная часть пройдена)
 Питон-разработчик (бесплатная часть пройдена)
-C ++ разработчик (заброшен)''')
+C ++ разработчик (в процессе)''')
 @bot.command() # Основной
 async def основной(ctx):
     await ctx.send('Эта беседа должна быть продолжена в #основной')
 @bot.command() # НГ
 async def нг(ctx):
-    now = dt.datetime.today()
-    new_year = dt.datetime(2022, 1, 1)
+    now = DT.datetime.today()
+    new_year = DT.datetime(2022, 1, 1)
     print(now)
     print(new_year)
     if now < new_year:
@@ -237,4 +239,213 @@ async def мем(ctx): #Мемы
     memes = ['https://sun9-16.userapi.com/impg/p0_aG8X-nbQf9nniAEdW1ej3KbCff-PT_lt4ew/QlOWMPCh5TA.jpg?size=555x669&quality=96&sign=07dd41dcda4e87d14dbee6bcf8d01605&type=album https://sun9-32.userapi.com/impg/YtwMqzLei5lXp-zuTp1WTutgSMAQYpFyNuAOJg/4zDvMfz4a4k.jpg?size=564x666&quality=96&sign=1eb190a6c474250025ff4cb873ff60bf&type=album источник -Такая себе Учёба', 'https://sun9-39.userapi.com/impg/rt6OheLsYVIIrrlQEmBgf6Ainqqq8f957Enm3w/9cTlI19HuDw.jpg?size=570x726&quality=96&sign=bb792a097adfddc777e665e3c990f637&type=album https://sun9-68.userapi.com/impg/iw4y2sRreRs-qATN7fDoWQJx8gFMmj0I9KatSQ/G7ZxXxdNvsM.jpg?size=572x727&quality=96&sign=0d3a74c1ee8100568909038d64556f76&type=album источник - Такая себе учёба']
     randommeme = random.choice(memes)
     await ctx.send(randommeme)
+@bot.command()
+async def животноевидео(ctx): #животные
+    animals = ['https://m.youtube.com/watch?v=L2BrWJ-UlzY', 'https://vk.com/video-198644058_456239936', 'https://m.youtube.com/watch?v=lApSdmMpst8', 'https://m.youtube.com/watch?v=lApSdmMpst8', 'https://m.youtube.com/watch?v=2Pa-eOU-ID0', 'https://m.youtube.com/watch?v=lo6sMZq4jvw', 'https://m.youtube.com/watch?v=6BQMU9fqLV4', 'https://m.youtube.com/watch?v=WaJuvuVARQs', 'https://m.youtube.com/watch?v=uD1YheEBORs', 'https://m.youtube.com/watch?v=0g0Ct2JHdgM', 'https://m.youtube.com/watch?v=nft43wL3vgA']
+    randomanimal = random.choice(animals)
+    await ctx.send(randomanimal)
+@bot.command()
+async def галерея(ctx):#галерея
+    await ctx.send('''https://\\cdn.dribbble.com/users/974337/screenshots/2631759/pato_dribbble.gif
+https://\\\\cdn.dribbble.com/users/974337/screenshots/2631759/pato_dribbble.gif
+https://\\\\\\cdn.dribbble.com/users/974337/screenshots/2631759/pato_dribbble.gif
+https://\\\\\\\\cdn.dribbble.com/users/974337/screenshots/2631759/pato_dribbble.gif''')
+@bot.command()
+async def кнопки(ctx):
+    msg = await ctx.send(
+        embed = discord.Embed(title = 'Это просто кнопки. Они не работают', timestamp = ctx.message.created_at),
+        components = [
+            Button(style = ButtonStyle.green, label = 'Зелёная'),
+            Button(style = ButtonStyle.red, label = 'Красная'),
+            Button(style = ButtonStyle.blue, label = 'Синяя'),
+            Button(label = 'Серая')
+        ])
+    responce = await bot.wait_for('button_click', check = lambda message: message.author == ctx.author)
+    if responce.component.label == 'Да':
+        await responce.respond(content = 'Тестда')
+    else:
+        await responce.respond(content = 'Тестнет')
+@bot.command() # указываем боту на то, что это его команда
+async def вики(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    wiki = text[0]
+    print(wiki)
+    page = text[1]
+    print(page)
+    if wiki == 'спв':
+        wikiurl = 'https://fabulous-patrol.fandom.com/ru/wiki/'
+    if wiki == 'цв':
+        wikiurl = 'https://tsarevny.fandom.com/ru/wiki/'
+    if wiki == 'щпв':
+        wikiurl = 'https://paw-patrol.fandom.com/ru/wiki/'
+    if wiki == 'бл':
+        wikiurl = 'https://losyash-library.fandom.com/ru/wiki/'
+    if wiki == 'лв':
+        wikiurl = 'https://luntik.fandom.com/ru/wiki/'
+    if wiki == 'лфв':
+        wikiurl = 'https://luntikfanon.fandom.com/ru/wiki/'
+    if wiki == 'вв':
+        wikiurl = 'https://wikies.fandom.com/wiki/'
+    if wiki == 'сообщ':
+        wikiurl = 'https://c.fandom.com/ru/wiki/'
+    if wiki == 'мыло':
+        wikiurl = 'https://soap.fandom.com/wiki/'
+    if wiki == 'дев':
+        wikiurl = 'https://dev.fandom.com/wiki/'
+    if wiki == 'тест':
+        wikiurl = 'https://test.fandom.com/ru/wiki/'
+    if wiki == 'бв':
+        wikiurl = 'https://barboskiny.fandom.com/ru/wiki/'
+    if wiki == 'пв':
+        wikiurl = 'https://prostokvashino.fandom.com/ru/wiki/'
+    if wiki == 'вп':
+        wikiurl = 'https://ru.wikipedia.org/wiki/'
+    if wiki == 'мета':
+        wikiurl = 'https://meta.wikimedia.org/wiki/'
+    if wiki == 'медиа':
+        wikiurl = 'https://www.mediawiki.org/wiki/'
+    if wiki == 'пбв':
+        wikiurl = 'https://polandballru.miraheze.org/wiki/'
+    if wiki == 'ншв':
+        wikiurl = 'https://peopleshararam.fandom.com/ru/wiki/'
+    if wiki == 'шв':
+        wikiurl = 'https://shararam.fandom.com/wiki/'
+    await ctx.send('<' + wikiurl + page + '>')
+@bot.command() #
+async def напомни(ctx, *, text):
+    text = text.split(",")
+    print(text)
+    answer = text[0]
+    print(answer)
+    local_time = float(text[1])
+    print(local_time)
+    local_time = local_time * 60
+    try:
+        time.sleep(local_time)
+        # Показываем текст напоминания
+        author = ctx.message.author
+        await ctx.send(author.mention + ', ' + answer)
+    except:
+        await ctx.send('Слишком большое число')
+@bot.command() #
+async def дзен(ctx):
+    await ctx.send('''Красивое лучше, чем уродливое.
+Явное лучше, чем неявное.
+Простое лучше, чем сложное.
+Сложное лучше, чем запутанное.
+Плоское лучше, чем вложенное.
+Разреженное лучше, чем плотное.
+Читаемость имеет значение.
+Особые случаи не настолько особые, чтобы нарушать правила.
+При этом практичность важнее безупречности.
+Ошибка никогда не должна замалчиваться.
+Если только вы сами этого не захотите.
+Встретив двусмысленность, отбрось искушение угадать.
+Должен существовать один и, желательно, только один очевидный способ сделать что-то.
+Хотя он поначалу может быть и не очевиден, если вы не голландец.
+Сейчас лучше, чем никогда.
+Хотя никогда зачастую лучше, чем прямо сейчас.
+Если реализацию сложно объяснить — идея плоха.
+Если реализацию легко объяснить — идея, возможно, хороша.
+Пространства имён — отличная штука! Будем делать их больше!
+Источник https://practicum.yandex.ru/trainer/backend-developer/lesson/ee71d9c9-bfe5-41c0-a093-12b380880136/''')
+@bot.command() # указываем боту на то, что это его команда
+async def фэндом(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    lang = text[0]
+    print(lang)
+    wiki = text[1]
+    print(wiki)
+    page = text[2]
+    print(page)
+    if lang == 'en':
+        lang = ''
+        slash = ''
+    else:
+        slash = '/'
+    await ctx.send(f'<https://{wiki}.fandom.com/{lang}{slash}wiki/{page}>')
+@bot.command() # указываем боту на то, что это его команда
+async def gamepedia(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    lang = text[0]
+    print(lang)
+    wiki = text[1]
+    print(wiki)
+    page = text[2]
+    print(page)
+    if lang == 'en':
+        lang = ''
+    else:
+        lang = '-' +lang
+    await ctx.send(f'<https://{wiki}{lang}.gamepedia.com/{page}>')
+@bot.command() # указываем боту на то, что это его команда
+async def викия(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    lang = text[0]
+    print(lang)
+    wiki = text[1]
+    print(wiki)
+    page = text[2]
+    print(page)
+    if lang == 'en':
+        lang = ''
+        slash = ''
+    else:
+        slash = '/'
+    await ctx.send(f'<https://{wiki}.wikia.org/{lang}{slash}wiki/{page}>')
+@bot.command() # указываем боту на то, что это его команда
+async def мирахез(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    wiki = text[0]
+    print(wiki)
+    page = text[1]
+    print(page)
+    await ctx.send(f'<https://{wiki}.miraheze.org/wiki/{page}>')
+@bot.command() # указываем боту на то, что это его команда
+async def shoutwiki(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    wiki = text[0]
+    print(wiki)
+    page = text[1]
+    print(page)
+    await ctx.send(f'<https://{wiki}.shoutwiki.com/wiki/{page}>')
+@bot.command() # указываем боту на то, что это его команда
+async def календарь(ctx, *, text):
+    text = text.split(",")
+    print(text)
+    year = int(text[0])
+    print(year)
+    month = int(text[1])
+    print(month)
+    await ctx.send(calendar.month(year, month))
+    #сейчас
+@bot.command() # указываем боту на то, что это его команда
+async def сейчас(ctx):
+    dt = DT.datetime.now()
+    print(dt)
+    print(dt.timestamp())
+    await ctx.send(f'<t:{int(dt.timestamp())}>')
+@bot.command() # указываем боту на то, что это его команда
+async def время(ctx, *, text):
+    text = text.split("/")
+    print(text)
+    time = text[0]
+    print(time)
+    zone = int(text[1])
+    zone = zone - 3
+    try:
+        dt = DT.datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+        print(dt)
+        dt = dt.timestamp()
+        print(dt)
+        dt = dt + zone * 3600
+        await ctx.send(f'<t:{int(dt)}>')
+    except:
+        await ctx.send('Поздравляю, вы чуть не сломали бота! Но мой програмист предусмотрел это!')
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
