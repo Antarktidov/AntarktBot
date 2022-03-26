@@ -91,7 +91,7 @@ async def on_ready():
      await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Царевны, Сказочный Патруль"))
      #Залогинен
      print('Бот вошёл в систему как {0.user}'.format(bot))
-#if text.find("@") != -1:
+#реакция бота на сообщения
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -104,10 +104,10 @@ async def on_message(message):
         await message.channel.send(netanswer)
     if message.content.find("yes") != -1:
         await message.channel.send('Yes, yes... ОБХСС! - Джентельмены у\д\ачи')
-    if message.content.find("вставьте сюда id бота") != -1:
+    if message.content.find("609078741775155211") != -1:
         await message.channel.send('Мой преффикс - див!')
     if message.content.find("бот") != -1:
-        whatbotanswers = ['Чего?', 'А кто же ещё', 'Да, я бот', 'А вот щас обидно было', 'приём, приём, как слышно']
+        whatbotanswers = ['Чего?', 'А кто же ещё', 'Да, я бот', 'приём, приём, как слышно']
         whatbotanswer = random.choice(whatbotanswers)
         await message.channel.send(whatbotanswer)
     if message.content.find("привет") != -1:    
@@ -115,6 +115,62 @@ async def on_message(message):
         answers = [f'Привет, {author.mention}!', 'Денег нет!']
         answer = random.choice(answers)
         await message.channel.send(answer)
+    if message.content.isupper() == True:
+        answers = ['CAPSLOCK DETECTED', 'Еээээ! Капсовая вечеринка :tada:!']
+        answer = random.choice(answers)
+        await message.channel.send(answer)
+    #вики-ссылки
+    if message.content.find("[[") != -1:
+        result = message.content[message.content.find('[[')+1:message.content.find(']]')]
+        result = result.replace('[', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        #фэндом
+        if result.startswith('w:c:'):
+            components = result.split(':')
+            print(components)
+            print(components[2].find('.') != -1)
+            #неанглийские вики
+            if components[2].find('.') != -1:
+                print(components[2])
+                lurl = components[2].split('.') #lurl - lang и url
+                lang = lurl[0]
+                url = lurl[1]
+                slash = '/'
+            #английские вики
+            else:
+                lang = ''
+                url = components[2]
+                slash = ''
+            #удаление w:c:ru.wiki: из массива и сборка оставшихся частей
+            a = components.pop(2)
+            a = components.pop(1)
+            a = components.pop(0)
+            #(components)
+            page = ':'.join(components) 
+            #print(page)
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/{page}>')
+        #русская википедия
+        elif result.startswith('ruwikipedia:'):
+            page = result.replace('ruwikipedia:', '')
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'<https://ru.wikipedia.org/wiki/{page}>')
+        #Библиотека Лосяша - вики поуполчанию
+        else:
+            if result.endswith('?'):
+                result = result + '%3F'
+            if result.endswith(')'):
+                result = result + '_'
+            await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/{result}>')
+        
+        #устранение конфликта между этим событием и командами
     await bot.process_commands(message)
 @bot.command()
 async def факты(ctx): #Факт
