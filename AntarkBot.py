@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import discord #импортируем библиотеки
+from discord import Client, Intents, Embed
 from discord.ext import commands
 from discord_components import DiscordComponents, Button, ButtonStyle
 import requests
@@ -9,6 +10,7 @@ import time
 import calendar
 import os
 import sys
+import wikitextparser as wtp
 
 settings = {#параметры бота
     'token': 'вставьте сюда ваш токен',
@@ -18,13 +20,6 @@ settings = {#параметры бота
 }
 
 bot = commands.Bot(command_prefix = "див!")
-
-@bot.command() # Привет
-async def привет(ctx): # Создаём функцию и передаём аргумент ctx.
-    author = ctx.message.author # Объявляем переменную author и записываем туда информацию об авторе.
-    answers = [f'Привет, {author.mention}!', 'Денег нет!']
-    answer = random.choice(answers)
-    await ctx.send(answer) # Выводим сообщение с упоминанием автора, обращаясь к переменной author.
 @bot.command()
 async def погода(ctx, *, city): # Погода
     url = 'https://wttr.in/' + city
@@ -49,10 +44,10 @@ async def царевны(ctx): #Царевны
 <https://vk.com/tsarevna_ask> - ASK Царевны''')
 @bot.command()
 async def инфо(ctx): #Информация о боте
-    await ctx.send('Автор бота - Антаркт#5225. Версия Питона - 3.9.7. Использована библиотека discord.py. Отдельное спасибо kotenok gav#8521 и Fluttershy#7152 (Strangedude123/Снежок Сказочника) за помощь в установке библиотеки и исправлении багов. А также спасибо Black Spaceship за то, что вдохновил автора на написание бота и Ядекс. Практикуму за обучение автора. Также спасибо папиному знакомому Максиму за помощь в установке питона на другой компьютер')
+    await ctx.send('Автор бота - Антаркт#5225. Версия Питона - 3.9.7. Использована библиотека discord.py. Отдельное спасибо kotenok gav#8521 и Fluttershy#7152 (Strangedude123/Снежок Сказочника/TerribleEditor/StarlightGlimmer) за помощь в установке библиотеки и исправлении багов. А также спасибо Black Spaceship за то, что вдохновил автора на написание бота и Ядекс. Практикуму за обучение автора. Также спасибо папиному знакомому Максиму за помощь в установке питона на другой компьютер. Ещё спасибо всем неравнодушным людям со stackowerflow, хабра и прочих рессрсов и атору и переводчику книги "Байт оф Пайтон"')
 @bot.command()
 async def сервер(ctx): #Сервер поддержки бота
-    await ctx.send('вставьте сюда ссылку на ваш сервер')
+    await ctx.send('Вставьте сюда ссылку на ваш сервер')
 @bot.command()
 async def код(ctx): #Код бота
     await ctx.send('<https://github.com/Antarktidov/AntarktBot/blob/main/AntarkBot.py>')
@@ -63,18 +58,13 @@ async def утка(ctx): #Утки
     await ctx.send(duckimage)
 @bot.command()
 async def пригласить(ctx): #Пригласить бота
-    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <вставьте сюда ссылку-пригшлашение бота>')
-#ответы на сообщения
+    await ctx.send('Используйте эту ссылку, чтобы пригласить меня на ваш сервер <Вставьте сюда ссылку-приглашение бота>')
 @bot.command()
 async def цитата(ctx): #Цитаты
-    quotes = ['Есть только один русский сотрудник, Kuzura - TokihikoH11', 'Engslish please in #general. - MisterWoodhause', 'Создавать вики для вандалов - это как покупать шубу для моли. ParaNormanBates', 'Шв - крутая вики - Липчанин', 'Тсоре над нами, мы -швиане']
+    quotes = ['Есть только один русский сотрудник, Kuzura - TokihikoH11', 'Engslish please in #general. - MisterWoodhause', 'Создавать вики для вандалов - это как покупать шубу для моли. ParaNormanBates', 'Шв - крутая вики - Липчанин', 'Тсоре над нами, мы - швиане']
     randomquote = random.choice(quotes)
     await ctx.send(randomquote)
-@bot.command()
-async def скин(ctx): #Скин
-    skins = ['FandomDesktop', 'FandomMobile', 'Vector', 'DarkVector', 'Oasis', 'Wikia', 'WIkiaMobile', 'Minerva', 'Hydra', 'HydaraDark']
-    randomskin = random.choice(skins)
-    await ctx.send(randomskin)
+
 @bot.command()
 async def печенье(ctx): #Печенье
     eda = ['Ты искал печенье, но ничего не нашёл', 'Ты искал печенье и нашёл юбилейное https://choco-opt.ru/upload/iblock/163/1638803371a06e5ca39c368889b6b43b.jpeg', 'Ты искал печенье и нашёл посиделкино https://avatars.mds.yandex.net/get-mpic/5159019/img_id5076932055298017294.jpeg/orig', 'Ты искал печенье и нашёл юбилейное с шоколадом https://static.beloris.ru/content/products/458645/947684/tmp/1280_128062335dc6ec68d916fa620b6c681fdbe6_xl.jpg', 'Ты искал печенье, но ничего не нашёл', 'Ты нашёл печенье, но его съела собака', 'Ты нашёл печенье, но его съела кошка', 'Ты искал печенье, но нашёл оливье https://ne-dieta.ru/wp-content/uploads/2017/12/final_1200-7.jpg', 'Ты пытался найти хоть-какую-то еду, но нашёл печенье', 'Ты искал печеньеб но нашёл подарок на новый год']
@@ -94,34 +84,42 @@ async def on_ready():
 #реакция бота на сообщения
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    string = message.content.lower()
+    wstring = message.content
+    if message.author == bot.user or string.find("`") != -1 or string.find("> ") != -1 or string.find("||") != -1:
         return
-    if message.content.find("да") != -1:
+    #if string.find("да") != -1:
+    w = "да"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
         await message.channel.send('А у тебя есть борода?')
-    if message.content.find("нет") != -1:
+    w = "нет"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
         netanswers = ['Ты мне достался на обед!', 'Откуда взялся интернет!']
         netanswer = random.choice(netanswers)
         await message.channel.send(netanswer)
-    if message.content.find("yes") != -1:
+    w = "yes"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
         await message.channel.send('Yes, yes... ОБХСС! - Джентельмены у\д\ачи')
-    if message.content.find("609078741775155211") != -1:
+    if string.find("609078741775155211") != -1:
         await message.channel.send('Мой преффикс - див!')
-    if message.content.find("бот") != -1:
+    w = "бот"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
         whatbotanswers = ['Чего?', 'А кто же ещё', 'Да, я бот', 'приём, приём, как слышно']
         whatbotanswer = random.choice(whatbotanswers)
         await message.channel.send(whatbotanswer)
-    if message.content.find("привет") != -1:    
+    w = "привет"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:   
         author = message.author # Объявляем переменную author и записываем туда информацию об авторе.
         answers = [f'Привет, {author.mention}!', 'Денег нет!']
         answer = random.choice(answers)
         await message.channel.send(answer)
-    if message.content.isupper() == True:
+    if wstring.isupper() == True:
         answers = ['CAPSLOCK DETECTED', 'Еээээ! Капсовая вечеринка :tada:!']
         answer = random.choice(answers)
         await message.channel.send(answer)
     #вики-ссылки
-    if message.content.find("[[") != -1:
-        result = message.content[message.content.find('[[')+1:message.content.find(']]')]
+    if string.find("[[") != -1 and message.content.find("]]") != -1:
+        result = wstring[wstring.find('[[')+1:wstring.find(']]')]
         result = result.replace('[', '')
         result = result.replace(' ', '_')
         result = result.replace('?', '%3F')
@@ -169,6 +167,61 @@ async def on_message(message):
             if result.endswith(')'):
                 result = result + '_'
             await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/{result}>')
+    #шаблоны
+    if string.find("{{") != -1 and message.content.find("}}") != -1:
+        result = wstring[wstring.find('{{')+1:wstring.find('}}')]
+        result = result.replace('{', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        #фэндом
+        #русские вики
+        if result.startswith('w:c:ru.'):
+            Template = "Шаблон:"
+        else:
+            Template = "Template:"
+        if result.startswith('w:c:'):
+            components = result.split(':')
+            print(components)
+            print(components[2].find('.') != -1)
+            #неанглийские вики
+            if components[2].find('.') != -1:
+                print(components[2])
+                lurl = components[2].split('.') #lurl - lang и url
+                lang = lurl[0]
+                url = lurl[1]
+                slash = '/'
+            #английские вики
+            else:
+                lang = ''
+                url = components[2]
+                slash = ''
+            #удаление w:c:ru.wiki: из массива и сборка оставшихся частей
+            a = components.pop(2)
+            a = components.pop(1)
+            a = components.pop(0)
+            #(components)
+            page = ':'.join(components) 
+            #print(page)
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/{Template}{page}>')
+        #русская википедия
+        elif result.startswith('ruwikipedia:'):
+            page = result.replace('ruwikipedia:', '')
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'<https://ru.wikipedia.org/wiki/Шаблон:{page}>')
+        #Библиотека Лосяша - вики поуполчанию
+        else:
+            if result.endswith('?'):
+                result = result + '%3F'
+            if result.endswith(')'):
+                result = result + '_'
+            await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/Шаблон:{result}>')
         
         #устранение конфликта между этим событием и командами
     await bot.process_commands(message)
@@ -186,7 +239,7 @@ async def факты(ctx): #Факт
 - При установке питона могут не установится некоторые стандартные библиотеки''')
 @bot.command()
 async def тест(ctx): #Тест
-    await ctx.send('Поверье мне, я полностью работоспособен!')
+    await ctx.send('Бот подключён к интернету и соединён с дискордом')
 @bot.command() # Основной
 async def основной(ctx):
     await ctx.send('Эта беседа должна быть продолжена в <#923622413068038187>')
@@ -237,10 +290,10 @@ async def кнопки(ctx):
             Button(label = 'Серая')
         ])
     responce = await bot.wait_for('button_click', check = lambda message: message.author == ctx.author)
-    if responce.component.label == 'Да':
-        await responce.respond(content = 'Тестда')
+    if responce.component.label == 'Зелёная':
+        await responce.respond(content = 'Тестзел')
     else:
-        await responce.respond(content = 'Тестнет')
+        await responce.respond(content = 'Тесткрасн')
 @bot.command() # указываем боту на то, что это его команда
 async def вики(ctx, *, text):
     if text.find("@") != -1:
@@ -411,6 +464,36 @@ async def shoutwiki(ctx, *, text):
         print(page)
         await ctx.send(f'<https://{wiki}.shoutwiki.com/wiki/{page}>')
 @bot.command() # указываем боту на то, что это его команда
+async def поиск(ctx, *, text):
+    text = text.split(" ")
+    lang =  text[0]
+    print(lang)
+    url = text[1]
+    print(url)
+    query = text[2]
+    print(query)
+    if lang == "en":
+        lang = ''
+        slash = ''
+    else:
+        slash = '/'
+    await ctx.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/Special:Search?query={query}&scope=internal>')
+@bot.command() # указываем боту на то, что это его команда
+async def поискобс(ctx, *, text):
+    text = text.split(" ")
+    lang =  text[0]
+    print(lang)
+    url = text[1]
+    print(url)
+    query = text[2]
+    print(query)
+    if lang == "en":
+        lang = ''
+        slash = ''
+    else:
+        slash = '/'
+    await ctx.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/Special:Search?scope=internal&query={query}&contentType=posts>')
+@bot.command() # указываем боту на то, что это его команда
 async def календарь(ctx, *, text):
     text = text.split(",")
     print(text)
@@ -558,7 +641,44 @@ async def слон(ctx):
 Впрочем, если вам не даётся PHP, не расстраивайтесь. Есть много интересных профессий, как в айти (дизайнеры) так и не в айти.''')
     embed.set_image(url = randomelephant)
     await ctx.send(embed = embed)
-#https://losyash-library.fandom.com/ru/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:%D0%A1%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0/%D0%A4%D0%B0%D0%B9%D0%BB
+@bot.command() # указываем боту на то, что это его команда
+async def ява(ctx):
+    java = ['island', 'coffe', 'bike', 'kotlin', 'js']
+    randomitem = random.choice(java)
+    if randomitem == 'island':
+        embed = discord.Embed(title = 'Остров Ява', description = '''
+Это - остров ява, в честь которого было названо кофе в честь котрого назван язык программирования джава.
+Если вы программируете на яве, то есть на джваве, вы можете поставить эту фотку в свою командную строку, а точнее в эмулятор командной строки conemu.
+Скачать conemu ||<https://www.fosshub.com/ConEmu.html?dwl=ConEmuSetup.210912.exe>||''')
+        islands = ['https://toursbali.ru/wp-content/uploads/2021/04/ostrov-yava.jpg', 'https://www.tripsoul.ru/Destinations/IMG_Asia/Indonesia/The-Beaches-Of-Java/TheBeachesOfJava_02.jpg', 'http://safari-tour.su/wp-content/uploads/2017/11/YAva-ostrov.jpg', 'https://indonesia.su/wp-content/uploads/2021/01/vulkan.jpg']
+        randomisland = random.choice(islands)
+        embed.set_image(url = randomisland)
+    if randomitem == 'coffe':
+        embed = discord.Embed(title = 'Кофе Ява', description = '''
+Это - кофе ява, в честь которого назван язык программирования джава.
+Если вы программируете на яве, то есть на джваве, вы можете поставить эту фотку в свою командную строку, а точнее в эмулятор командной строки conemu.
+Скачать conemu ||<https://www.fosshub.com/ConEmu.html?dwl=ConEmuSetup.210912.exe>||''')
+        embed.set_image(url = 'https://about-tea.ru/wp-content/uploads/9/6/6/966cabf494fbdc244ae0a465de40f308.jpeg')
+    if randomitem == 'js':
+        embed = discord.Embed(title = 'Джава', description = '''
+А это вовсе не джава, а джаваскрипт. На нём в соновном пишут веб-страницы вместе с html и css. Смотри не перепутай :wink:''')
+        embed.set_image(url = 'https://software.3metas.com/wp-content/uploads/2014/04/javascript6-compressed.jpg')
+    if randomitem == 'bike':
+        embed = discord.Embed(title = 'Мотоцикл Ява', description = '''
+Это - мотоцикл ява, который назван в честь острова ява, в честь которого названо кофе ява, в в честь котрого назван язык программирования джава.
+Если вы программируете на яве, то есть на джваве, вы можете поставить эту фотку в свою командную строку, а точнее в эмулятор командной строки conemu.
+Скачать conemu ||<https://www.fosshub.com/ConEmu.html?dwl=ConEmuSetup.210912.exe>||''')
+        embed.set_image(url = 'https://s2.usedcars.ru/photos/2018/10/1280x1024/15400302044358.jpg')
+    if randomitem == 'kotlin':
+        embed = discord.Embed(title = 'Джава', description = '''
+А это вовсе не джава, а котлин. На нём в соновном разрабатывают под андроид. Смотри не перепутай :wink:
+Кстати, язык программирования kotlin назван в честь острова котлин в Санкт-Петербурге, который на картинке.
+Если вы программируете на яве, то есть на джваве, то есть на котлине, вы можете поставить эту фотку в свою командную строку, а точнее в эмулятор командной строки conemu.
+Скачать conemu ||<https://www.fosshub.com/ConEmu.html?dwl=ConEmuSetup.210912.exe>||''')
+        kotlins = ['https://avatars.mds.yandex.net/get-zen_doc/34175/pub_5cb390045d901500b31a69e5_5cb4ba13eb4c5d00b3cb323d/scale_1200', 'https://avatars.mds.yandex.net/get-zen_doc/1584427/pub_5e59b4dbf9af6a13103b30b0_5e59b54b669c1f78da921bb0/scale_1200', 'https://avatars.mds.yandex.net/get-zen_doc/3855260/pub_5f6363f06f388e770c91d1ca_5f64910361cbe322d96a80cd/scale_1200', 'https://img-fotki.yandex.ru/get/6519/47953450.5a/0_a139e_d77704c3_XXXL.jpg']
+        randomkotlin = random.choice(kotlins)
+        embed.set_image(url = randomkotlin)
+    await ctx.send(embed = embed)
 @bot.command()
 async def смешарики(ctx):
     await ctx.send('''<https://losyash-library.fandom.com/ru/wiki/Служебная:Случайная_страница/Файл>
@@ -573,22 +693,23 @@ async def выбрать(ctx, *, text):
     if text.find("@") != -1:
         await ctx.send('Пытаться пингануть кого-то с помощью бота запрещено')
     else:
-        text = text.split(",")
+        text = text.split(",")#всё равно получаем массив, даже если элемент всего один
         print(text)
-        if len(text)  != 1:
+        if len(text)  != 1: #проверка, состоит ли массив из одного элемента
             await ctx.send( random.choice (text) )
         else:
-            text = text[0].split(" ")
+            text = text[0].split(" ")#Если массив состоит из одного элемента, то обращаемся к первому ([0]) элементу
             print(text)
             if len(text)  != 1:
                 await ctx.send( random.choice (text) )
             else:
                 await ctx.send('Введите минимум два элемента, разделённых пробелом или запятой')
 @bot.command()
-async def монетка(ctx): #рептилии
+async def монетка(ctx):
     coins = ['орёл', 'решка']
     coin = random.choice(coins)
     await ctx.send(coin)
+#сообщения об ошибках
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound ):
@@ -597,4 +718,56 @@ async def on_command_error(ctx, error):
         await ctx.send("Введите один или несколько аргуметов")
     else:
         raise error
+@bot.command()
+async def стоп(ctx):
+    await ctx.send('Выключаюсь')
+    print('Выключаюсь')
+    exit()
+@bot.command()
+async def сообщить(ctx, *, text):
+    text = text.split(" ")
+    print(text)
+    print(len(text))
+    if len(text) == 1:
+        link = text[0]
+        reason = "Отсутсвует"
+    elif len(text) == 2:
+        reason = text[0]
+        print(reason)
+        link = text[1]
+    else:
+        await ctx.send('Ошибка1')
+    link = link.split("/")
+    print(link)
+    #https://fanonsmesh.fandom.com/ru/wiki/Служебная:Вклад/Ekulabukhova
+    domain = link[2]
+    print(domain)
+    domain = domain.split('.')
+    wikiurl = domain[0]
+    print(wikiurl)
+    lang = link[3]
+    if lang == 'wiki':
+        lang = 'en'
+    if lang == 'f':
+        await ctx.send('Ошибка2')
+    print(lang)
+    userinfo = link[len(link)-1]
+    print(userinfo)
+    if userinfo.find(":") != -1:
+        userinfo = userinfo.split(':')
+        user = userinfo[1]
+    else:
+        user = userinfo
+    print(user)
+    await ctx.send(f'''Причина сообщения: {reason}
+    Nameofwiki: {wikiurl}
+    Язык: {lang}
+    Имя участника: {user}''')
+'''@bot.command() # указываем боту на то, что это его команда
+async def викитекст(ctx, *, text):
+    if text.find("@") != -1:
+        await ctx.send('Пытаться пингануть кого-то с помощью бота запрещено')
+    else:
+        parsed = wtp.parse(text)
+        await ctx.send(parsed)'''
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
