@@ -117,8 +117,64 @@ async def on_message(message):
         answers = ['CAPSLOCK DETECTED', 'Еээээ! Капсовая вечеринка :tada:!']
         answer = random.choice(answers)
         await message.channel.send(answer)
+    #вики-ссылки на изображения
+    if string.find("[[") != -1 and message.content.find("]]") != -1 and (message.content.find("Файл:") != -1 or message.content.find("File:") != -1):
+        result = wstring[wstring.find('[[')+1:wstring.find(']]')]
+        result = result.replace('[', '')
+        #result = result.replace('[Файл:', '')
+        #result = result.replace('[File:', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        if result.startswith('w:c:') and (result.find("File:") != -1 or result.find("Файл:") != -1):
+            print("Выполняется код на изображения")
+            components = result.split(':')
+            print(components)
+            print(components[2].find('.') != -1)
+            #неанглийские вики
+            if components[2].find('.') != -1:
+                print(components[2])
+                lurl = components[2].split('.') #lurl - lang и url
+                lang = lurl[0]
+                url = lurl[1]
+                slash = '/'
+            #английские вики
+            else:
+                lang = ''
+                url = components[2]
+                slash = ''
+            #удаление w:c:ru.wiki и File:/Файл: из массива и сборка оставшихся частей
+            a = components.pop(3)
+            a = components.pop(2)
+            a = components.pop(1)
+            a = components.pop(0)
+            #(components)
+            page = ':'.join(components) 
+            #print(page)
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'https://{url}.fandom.com/{lang}{slash}wiki/Special:FilePath/{page}')
+        #русская википедия
+        elif result.startswith('ruwikipedia:File:') or result.startswith('ruwikipedia:Файл:'):
+            page = result.replace('ruwikipedia:', '')
+            page = page.replace('File:', '')
+            page = page.replace('Файл:', '')
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            await message.channel.send(f'https://ru.wikipedia.org/wiki/Служебная:FilePath/{page}')
+        else:
+            result = result.replace('Файл:', '')
+            result = result.replace('File:', '')
+            if result.endswith('?'):
+                result = result + '%3F'
+            if result.endswith(')'):
+                result = result + '_'
+            await message.channel.send(f'https://losyash-library.fandom.com/ru/wiki/Служебная:FilePath/{result}')
     #вики-ссылки
-    if string.find("[[") != -1 and message.content.find("]]") != -1:
+    elif string.find("[[") != -1 and message.content.find("]]") != -1:
         result = wstring[wstring.find('[[')+1:wstring.find(']]')]
         result = result.replace('[', '')
         result = result.replace(' ', '_')
@@ -177,6 +233,7 @@ async def on_message(message):
         #русские вики
         if result.startswith('w:c:ru.'):
             Template = "Шаблон:"
+        #нерусские вики
         else:
             Template = "Template:"
         if result.startswith('w:c:'):
@@ -222,6 +279,60 @@ async def on_message(message):
             if result.endswith(')'):
                 result = result + '_'
             await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/Шаблон:{result}>')
+    #галереи
+    if string.find("<gallery:w:c") != -1 and string.find("</gallery>") != -1:
+        gallery = wstring[wstring.find('<gallery')+1:wstring.find('>')]
+        result = wstring[string.find('>')+1:wstring.find('</gallery>')]
+        #result = result.replace('[', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        print(result)
+        files = result.split('''
+''')
+        files.pop()
+        files.pop(0)
+        print(files)
+        components = gallery.split(':')
+        #неанглийские вики
+        if components[3].find('.') != -1:
+            print(components[3])
+            lurl = components[3].split('.') #lurl - lang и url
+            lang = lurl[0]
+            url = lurl[1]
+            slash = '/'
+        #английские вики
+        else:
+            lang = ''
+            url = components[2]
+            slash = ''
+        answer = ''
+        for file in files:
+            if file.find('|') != -1:
+                components = file.split('|')
+                file = components[0]
+            answer = answer + f'https://{url}.fandom.com/{lang}{slash}wiki/Служебная:FilePath/{file}' + '''
+'''
+        await message.channel.send(answer)
+    #галереи на вики по умолчанию - Библиотеке Лосяша
+    elif wstring.find("<gallery") != -1 and string.find("</gallery>") != -1:
+        result = string[wstring.find('>')+1:wstring.find('</gallery>')]
+        #result = result.replace('[', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        print(result)
+        files = result.split('''
+''')
+        files.pop()
+        files.pop(0)
+        print(files)
+        answer = ''
+        for file in files:
+            if file.find('|') != -1:
+                components = file.split('|')
+                file = components[0]
+            answer = answer + f'https://losyash-library.fandom.com/ru/wiki/Служебная:FilePath/{file}' + '''
+'''
+        await message.channel.send(answer)
         
         #устранение конфликта между этим событием и командами
     await bot.process_commands(message)
