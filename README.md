@@ -1,0 +1,3 @@
+# AntarktBot
+Config files for my GitHub profile.
+Discord bot for Fandom Discord servers, wrinen in Python. Unlike other bots, the bot can handle not only [[wiki-links]] and {{template links}}, but also links to Files and Fandom galleries markup. There are also games in the bot, such as rock, paper scissors, commands with pictures for programmers, and there is still an opportunity to find out the weather. Currently, the bot supports only Russian, but you can translate it into your language yourself, because the bot has an open source code. If you have any questions, leave a comment below the bot code file, or write to me on Fandom (User:Антаркт) or Discord (Антаркт#5225).
