@@ -11,6 +11,7 @@ import calendar
 import os
 import sys
 import wikitextparser as wtp
+from prettytable import PrettyTable
 
 settings = {#параметры бота
     'token': 'вставьте сюда ваш токен',
@@ -117,8 +118,63 @@ async def on_message(message):
         answers = ['CAPSLOCK DETECTED', 'Еээээ! Капсовая вечеринка :tada:!']
         answer = random.choice(answers)
         await message.channel.send(answer)
+    #обработка инфобоксов
+    if string.find("{{") != -1 and string.find("}}") != -1 and string.find("|") != -1:
+        print(string)
+        result = wstring[wstring.find('{{')+1:wstring.find('}}')]
+        result = result.replace('{', '')
+        print(result)
+        components = result.split('|')
+        print(components)
+        sections = []
+        for line in components:
+            #for sections in line:
+            x = line.split('=')
+            if x[0] == 'image1':
+                image = x[1]
+                #x.clear()
+            if x[0] == 'title1':
+                title = x[1]
+                #x.clear()
+            x[0] = '**' + x[0] + '**'
+            try:
+                x[1] = x[1].replace('*', '')
+                x[1] = x[1].replace('<br/>', '\n')
+            except:
+                print('Тут только один индекс')
+            x = '\n'.join(x)
+            '''if x.find('image1') != -1 or x.find('title1') != -1:
+                x = ''
+                print('Это изображение или название')'''
+            sections.append(x)
+        sections = '\n'.join(sections)
+        print(sections)
+        #print(image)
+        #print(title)
+        embed = discord.Embed(title = '', description = sections)
+        #embed.set_image(url = 'https://losyash-library.fandom.com/ru/wiki/Служебная:FilePath/' + image)
+        await message.channel.send(embed = embed)
+    elif wstring.find("{|") != -1 and wstring.find("|}") != -1:
+        table = PrettyTable()
+        result = wstring[wstring.find('{')+1:wstring.find('|}')]
+        result = result.replace("\n", "")
+        result = result.replace("<br>" ,"\n")
+        rows = result.split("|-")
+        rows.pop(0)
+        #print(rows[0].split("|"))
+        #table.field_names = rows[0].split("|")
+        print(rows)
+        cells = []
+        for cell in rows:
+            x = cell.split("|")
+            x.remove('')
+            cells.append(x)
+            #table.add_row(x)
+        table.add_rows(cells)
+        table = table.get_string()
+        await message.channel.send('```' + table + '```')
     #вики-ссылки на изображения
-    if string.find("[[") != -1 and message.content.find("]]") != -1 and (message.content.find("Файл:") != -1 or message.content.find("File:") != -1):
+    elif string.find("[[") != -1 and message.content.find("]]") != -1 and (message.content.find("Файл:") != -1 or message.content.find("File:") != -1):
         result = wstring[wstring.find('[[')+1:wstring.find(']]')]
         result = result.replace('[', '')
         #result = result.replace('[Файл:', '')
@@ -224,7 +280,7 @@ async def on_message(message):
                 result = result + '_'
             await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/{result}>')
     #шаблоны
-    if string.find("{{") != -1 and message.content.find("}}") != -1:
+    elif string.find("{{") != -1 and message.content.find("}}") != -1:
         result = wstring[wstring.find('{{')+1:wstring.find('}}')]
         result = result.replace('{', '')
         result = result.replace(' ', '_')
@@ -280,7 +336,7 @@ async def on_message(message):
                 result = result + '_'
             await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/Шаблон:{result}>')
     #галереи
-    if string.find("<gallery:w:c") != -1 and string.find("</gallery>") != -1:
+    elif string.find("<gallery:w:c") != -1 and string.find("</gallery>") != -1:
         gallery = wstring[wstring.find('<gallery')+1:wstring.find('>')]
         result = wstring[string.find('>')+1:wstring.find('</gallery>')]
         #result = result.replace('[', '')
