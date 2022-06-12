@@ -118,6 +118,78 @@ async def on_message(message):
         answers = ['CAPSLOCK DETECTED', 'Еээээ! Капсовая вечеринка :tada:!']
         answer = random.choice(answers)
         await message.channel.send(answer)
+    w = "js"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:js:945184278105444393>")
+    w = "javascript"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:js:945184278105444393>")
+    w = "джаваскипт"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:js:945184278105444393>")
+    w = "жабаскрипт"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:js:945184278105444393>")
+    w = "c++"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:Cpp:945184523031810078>")
+    w = "плюсы"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:Cpp:945184523031810078>")
+    w = "css"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:css:945185585763598337>")
+    w = "сиэсэс"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:css:945185585763598337>")
+    w = "каэсэс"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:css:945185585763598337>")
+    w = "html"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:html:945185375037587507>")
+    w = "htmlacademy"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:html:945185375037587507>")
+    w = "lua"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:lua:945186752275046420>")
+    w = "луа"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:lua:945186752275046420>")
+    w = "лиа"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:lua:945186752275046420>")
+    w = "php"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:php:945185164974256128>")
+    w = "пыха"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:php:945185164974256128>")
+    w = "питон"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:python:945180968346599444>")
+    w = "пайтон"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:python:945180968346599444>")
+    w = "питонист"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:python:945180968346599444>")
+    w = "питонисты"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:python:945180968346599444>")
+    w = "python"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:python:945180968346599444>")
+    w = "unity"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:unity:958769643055640607>")
+    w = "юнити"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:unity:958769643055640607>")
+    w = "вики"
+    if string.startswith(f"{w} ") or string.startswith(f"{w}!") or string.startswith(f"{w},") or string.startswith(f"{w}?") or string.startswith(f"{w}.") or string.endswith(f" {w}") or string.find(f" {w} ") != -1 or string.find(f" {w}.") != -1 or string.find(f" {w}!") != -1 or string.find(f" {w}?") != -1 or string.find(f" {w},") != -1 or string == w:
+        await message.add_reaction("<:wikitext:945186382496796672>")
     #обработка инфобоксов
     if string.find("{{") != -1 and string.find("}}") != -1 and string.find("|") != -1:
         print(string)
@@ -937,4 +1009,5 @@ async def викитекст(ctx, *, text):
     else:
         parsed = wtp.parse(text)
         await ctx.send(parsed)'''
+
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
