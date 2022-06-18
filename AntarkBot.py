@@ -351,6 +351,80 @@ async def on_message(message):
             if result.endswith(')'):
                 result = result + '_'
             await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/{result}>')
+    #обсуждения
+    elif string.find("[") != -1 and string.find("]") != -1:
+        result = wstring[wstring.find('[')+1:wstring.find(']')]
+        #result = result.replace('[', '')
+        result = result.replace(' ', '_')
+        result = result.replace('?', '%3F')
+        if result.startswith('w:c:'):
+            components = result.split(':')
+            print(components)
+            print(components[2].find('.') != -1)
+            if components[3].startswith('/'):
+                isAbsolute = True
+            else:
+                isAbsolute = False
+            if components[3] == 'wiki':
+                isOnWiki = True
+            else:
+                isOnWiki = False
+            if components[3].startswith('~'):
+                isUser = True
+            else:
+                isUser = False
+            #неанглийские вики
+            if components[2].find('.') != -1:
+                print(components[2])
+                lurl = components[2].split('.') #lurl - lang и url
+                lang = lurl[0]
+                url = lurl[1]
+                slash = '/'
+            #английские вики
+            else:
+                lang = ''
+                url = components[2]
+                lash = ''
+            #удаление w:c:ru.wiki: из массива и сборка оставшихся частей
+            if isOnWiki == True:
+                a = components.pop(3)
+            a = components.pop(2)
+            a = components.pop(1)
+            a = components.pop(0)
+            #(components)
+            page = ':'.join(components)
+            print(page)
+            #print(page)
+            if result.endswith('?'):
+                page = page + '%3F'
+            if result.endswith(')'):
+                page = page + '_'
+            if isOnWiki == True:
+                await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/{page}>')
+            elif isAbsolute == True:
+                await message.channel.send(f'<https://{url}.fandom.com{page}>')
+            elif isUser == True:
+                page = page.replace('~', '')
+                try:
+                    userid = int(page)
+                    await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}f/u/{page}>')
+                except:
+                    await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}wiki/Участник:{page}>')
+            else:
+                await message.channel.send(f'<https://{url}.fandom.com/{lang}{slash}f/{page}>')
+        elif result.startswith('wiki:'):
+            await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/{result}>')
+        elif result.startswith('/'):
+            await message.channel.send(f'<https://losyash-library.fandom.com{result}>')
+        elif result.startswith('~'):
+            result = result.replace('~', '')
+            try:
+                userid = int(result)
+                await message.channel.send(f'<https://losyash-library.fandom.com/ru/f/u/{result}>')
+            except:
+                await message.channel.send(f'<https://losyash-library.fandom.com/ru/wiki/Участник:{result}>')
+        else:
+            await message.channel.send(f'<https://losyash-library.fandom.com/ru/f/{result}>')
     #шаблоны
     elif string.find("{{") != -1 and message.content.find("}}") != -1:
         result = wstring[wstring.find('{{')+1:wstring.find('}}')]
