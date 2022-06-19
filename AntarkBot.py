@@ -1083,5 +1083,21 @@ async def викитекст(ctx, *, text):
     else:
         parsed = wtp.parse(text)
         await ctx.send(parsed)'''
-
+@bot.command()
+async def mdtable(ctx, *, string):
+    table = PrettyTable()
+    #string = text.replace('||', '|')
+    rows = string.split("\n")
+    print(rows)
+    cells = []
+    for cell in rows:
+        x = cell.split("|")
+        x.remove('')
+        del x[len(x)-1]
+        print(x)
+        cells.append(x)
+        #table.add_row(x)
+    table.add_rows(cells)
+    table = table.get_string()
+    await ctx.send('```' + table + '```')
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
