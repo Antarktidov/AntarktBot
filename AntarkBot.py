@@ -12,6 +12,8 @@ import os
 import sys
 import wikitextparser as wtp
 from prettytable import PrettyTable
+import sqlite3
+from javascript import require, globalThis
 
 settings = {#параметры бота
     'token': 'вставьте сюда ваш токен',
@@ -20,7 +22,11 @@ settings = {#параметры бота
     'prefix': 'див!'
 }
 
-bot = commands.Bot(command_prefix = "див!")
+#подключаем базу данных
+con = sqlite3.connect('signatures.db')
+cur = con.cursor()
+#настраиваем префикс бота
+bot = commands.Bot(command_prefix = "див!", intents=discord.Intents.all())
 @bot.command()
 async def погода(ctx, *, city): # Погода
     url = 'https://wttr.in/' + city
@@ -38,11 +44,8 @@ async def погода(ctx, *, city): # Погода
     await ctx.send(response.text)
 @bot.command()
 async def царевны(ctx): #Царевны
-    await ctx.send('''<https://tsarevny.ru> - сайт
-<https://www.youtube.com/tsarevny> - YouTube
-<https://vk.com/tsarevny.official> - VK
-<https://tsarevny.fandom.com/ru> - вики
-<https://vk.com/tsarevna_ask> - ASK Царевны''')
+    embed = discord.Embed(title = '', description = '[сайт](https://tsarevny.ru) • [YouTube](https://www.youtube.com/tsarevny) • [VK](https://vk.com/tsarevny.official) • [вики](https://tsarevny.fandom.com/ru) • [ASK Царевны](https://vk.com/tsarevna_ask)')
+    await ctx.send(embed = embed)
 @bot.command()
 async def инфо(ctx): #Информация о боте
     await ctx.send('Автор бота - Антаркт#5225. Версия Питона - 3.9.7. Использована библиотека discord.py. Отдельное спасибо kotenok gav#8521 и Fluttershy#7152 (Strangedude123/Снежок Сказочника/TerribleEditor/StarlightGlimmer) за помощь в установке библиотеки и исправлении багов. А также спасибо Black Spaceship за то, что вдохновил автора на написание бота и Ядекс. Практикуму за обучение автора. Также спасибо папиному знакомому Максиму за помощь в установке питона на другой компьютер. Ещё спасибо всем неравнодушным людям со stackowerflow, хабра и прочих рессрсов и атору и переводчику книги "Байт оф Пайтон"')
@@ -535,6 +538,14 @@ async def on_message(message):
             answer = answer + f'https://losyash-library.fandom.com/ru/wiki/Служебная:FilePath/{file}' + '''
 '''
         await message.channel.send(answer)
+    elif wstring.find("~~~") != -1:
+        #await message.channel.send(message.author.id)
+        userid = message.author.id
+        for row in cur.execute(f"SELECT signature FROM signatures WHERE userid = '{userid}' "):
+            #await message.channel.send(row[0])
+            signature = row[0]
+        embed = discord.Embed(description = signature)
+        await message.channel.send(embed = embed)
         
         #устранение конфликта между этим событием и командами
     await bot.process_commands(message)
@@ -1099,5 +1110,30 @@ async def mdtable(ctx, *, string):
         #table.add_row(x)
     table.add_rows(cells)
     table = table.get_string()
-    await ctx.send('```' + table + '```')
+    await ctx.send('```' + table + '```')    
+@bot.command()
+async def установитьподпись(ctx, *, signature):
+    cur.execute(f"INSERT INTO signatures VALUES ('{ctx.author.id}','{signature}')")
+    con.commit()
+'''@bot.command()
+async def jsдата(ctx, *, text):
+    text = text.split('/')
+    arg = text[0]
+    arr = text[1]
+    string = text[2]
+    arr = arr.split(',')
+    for nums in arr:
+        nums = int(nums)
+    #p = check_output(['node', 'datetime.js'])
+    #print (p)
+    #p.jsdatetime(arg, arr, string)
+    jsdate = require("./datetime.js")
+    print(type(jsdate))
+    print(type(jsdate.jsdatetime))
+    #print(jsdate.jsdatetime(arg, arr, string))'''
+@bot.command()
+async def markdown(ctx):
+    embed = discord.Embed(title = 'Питон', description = '![Альтернативный текст](https://static.wikia.nocookie.net/smesharikiarhives/images/b/b7/Ёжик_товарный_знак.png/revision/latest?cb=20200929162643&path-prefix=ru "Подсказка")')
+    embed.set_thumbnail(url='https://7kyr.ru/wp-content/uploads/2015/08/selezen.jpg')
+    await ctx.send(embed = embed)
 bot.run('вставье сюда ваш токен') # Обращаемся к словарю settings с ключом token, для получения токена
